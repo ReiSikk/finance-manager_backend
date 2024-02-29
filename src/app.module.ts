@@ -7,6 +7,9 @@ import { EntryModule } from './entry/entry.module';
 import { dbConfig } from '../data.source';
 
 
+//TODO:  Addthe following(url:: process.env.DATABASE_URL) to the app.module.ts
+//TODO: Set up github actions
+
 @Module({
  imports: [
    ConfigModule.forRoot({ isGlobal: true }),
