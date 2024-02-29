@@ -47,5 +47,3 @@ jobs:
         run: npm run test:e2e
         env:
           DATABASE_URL: postgres://postgres:reeisikk@localhost:5432/financeManager
-ci.yaml
-Displaying ci.yaml.
