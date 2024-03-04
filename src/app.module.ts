@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { EntryModule } from './entry/entry.module';
 import { dbConfig } from '../data.source';
+import { CategoriesModule } from './categories/categories.module';
 
 
 //TODO:  Addthe following(url:: process.env.DATABASE_URL) to the app.module.ts
@@ -16,6 +17,7 @@ import { dbConfig } from '../data.source';
      // Directly use dataSource for TypeORM configuration
     TypeOrmModule.forRoot(dbConfig),
     EntryModule,
+    CategoriesModule,
  ],
  controllers: [AppController],
  providers: [AppService],
