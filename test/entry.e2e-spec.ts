@@ -5,8 +5,8 @@ import { CreateEntryDto } from '../src/entry/dto/create-entry.dto'
 import { AppModule } from '../src/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { Category } from "../src/categories/entities/category.entity"
-import { CategoriesService } from 'src/categories/categories.service';
-import { CreateCategoryDto } from 'src/categories/dto/create-category.dto';
+import { CategoriesService } from '../src/categories/categories.service';
+import { CreateCategoryDto } from '../src/categories/dto/create-category.dto';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 
@@ -44,7 +44,7 @@ describe('AppController (e2e)', () => {
       const savedCategory = await categoriesService.create(new CreateCategoryDto("Take-out"));
       console.log(savedCategory, "savedCategory");
 
-        const validEntry = new CreateEntryDto(100, new Date(), 'DKK', 'Frankies Pizza', 'Takeout', "A mediocre pizza");
+        const validEntry = new CreateEntryDto(100, new Date(), 'DKK', 'Frankies Pizza', 'Takeout');
         validEntry.category = savedCategory;
 
 
@@ -59,19 +59,17 @@ describe('AppController (e2e)', () => {
         expect(body.id).toBeDefined()
     })
     it('should return error message when passed an invalid entry', async () => {
-      const inValidEntry = new CreateEntryDto(100, new Date(), 'DKK', 'sihsihs', 'Whatever', "A mediocre pizza");
+      const inValidEntry = new CreateEntryDto(100, new Date(), 'DKK', '', 'Whatever');
 
       const {body} = await request(app.getHttpServer())
       .post('/entry')
       .send(inValidEntry)
       .expect(400)
 
-      expect(body.message[0].toEqual('name should not be empty'))
+      expect(body.message[0]).toEqual('name should not be empty');
     })
     
   })
 
-/*   afterEach(async () => {
-    await financeRepository
-  }) */
 });
+
