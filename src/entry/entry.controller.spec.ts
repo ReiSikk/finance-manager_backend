@@ -8,7 +8,13 @@ describe('EntryController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [EntryController],
-      providers: [EntryService],
+      providers: [
+        EntryService,
+        {
+          provide: 'EntryRepository',
+          useValue: {}, // Add your mock methods here
+        },
+      ],
     }).compile();
 
     controller = module.get<EntryController>(EntryController);
