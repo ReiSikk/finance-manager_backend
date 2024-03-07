@@ -41,10 +41,10 @@ describe('AppController (e2e)', () => {
   describe('/ (POST) entry controller', () => {
     it('should create a new entry when passed a valid entry', async () => {
 
-      const savedCategory = await categoriesService.create(new CreateCategoryDto("Take-out"));
+      const savedCategory = await categoriesService.create(new CreateCategoryDto("Testing"));
       console.log(savedCategory, "savedCategory");
 
-        const validEntry = new CreateEntryDto(100, new Date(), 'DKK', 'Frankies Pizza', 'Takeout');
+        const validEntry = new CreateEntryDto(100, new Date(), 'DKK', 'Frankies Pizza', 'Take-out');
         validEntry.category = savedCategory;
 
 
