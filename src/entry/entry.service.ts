@@ -4,15 +4,30 @@ import { UpdateEntryDto } from './dto/update-entry.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Entry } from './entities/entry.entity';
 import { Repository } from 'typeorm';
+import { Category } from 'src/categories/entities/category.entity';
 @Injectable()
 export class EntryService {
 
-  constructor(@InjectRepository(Entry)
-  private entryRepository: Repository<Entry>) {}
+  constructor(
+  @InjectRepository(Entry)
+  private entryRepository: Repository<Entry>,
+  @InjectRepository(Category)
+    private categoryRepository: Repository<Category>,
+  ) {}
 
 
-  create(createEntryDto: CreateEntryDto) {
-    return this.entryRepository.save(createEntryDto)
+  async create(createEntryDto: CreateEntryDto) {
+    let category = await this.categoryRepository.findOne({ where: { name: createEntryDto.category.name } });
+
+    if (!category) {
+      category = this.categoryRepository.create({ name: createEntryDto.category.name });
+      await this.categoryRepository.save(category);
+  }
+
+  const entry = this.entryRepository.create(createEntryDto);
+  entry.category = category;
+
+    return this.entryRepository.save(entry)
   }
 
   findAll() {
