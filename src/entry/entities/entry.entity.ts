@@ -21,9 +21,6 @@ export class Entry {
     @Column()
     comment: string
 
-    @Column() 
-    description: string
-
     @ManyToOne(() => Category, (category) => category.entries, {
         eager: true
     })
