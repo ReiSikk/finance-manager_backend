@@ -1,18 +1,29 @@
+import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from './auth.controller';
+import { INestApplication } from '@nestjs/common';
+import { AppModule } from '../app.module';
 
-describe('AuthController', () => {
-  let controller: AuthController;
+describe('AuthController (e2e)', () => {
+  let app: INestApplication;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [AuthController],
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
     }).compile();
 
-    controller = module.get<AuthController>(AuthController);
+    app = moduleFixture.createNestApplication();
+    await app.init();
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('should grant admin access', () => {
+    return request(app.getHttpServer())
+      .post('/auth/upgrade')
+      .auth('access_token', { type: 'bearer' })
+      .expect(200)
+      .expect({ success: true });
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 });
