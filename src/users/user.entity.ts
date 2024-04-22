@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Role } from '../auth/enums/role.enum';
-
+import { Entry } from '../entry/entities/entry.entity';
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
@@ -18,5 +18,8 @@ export class User {
         default: [Role.User],
     })
     role: Role;
+
+    @OneToMany(() => Entry, (entry) => entry.user)
+    entries: Entry[]
 
 }

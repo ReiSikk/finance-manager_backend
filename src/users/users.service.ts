@@ -41,6 +41,10 @@ async create(createUserDto: CreateUserDto): Promise<User> {
     return this.userRepository.findOne({where: {id: id}});
 }
 
+async findAll(): Promise<User[]> {
+  return this.userRepository.find();
+}
+
   async upgrade(userId: number) {
     const user = await this.findUserById(userId); // find user by the userId
     user.role = Role.PremiumUser; // changing the role in memory

@@ -1,6 +1,7 @@
 //Data model that TypeOrm can use to generate the database table
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Category } from "../../categories/entities/category.entity"
+import { User } from "../../users/user.entity";
 @Entity()
 export class Entry {
     @PrimaryGeneratedColumn()
@@ -20,6 +21,11 @@ export class Entry {
 
     @Column()
     comment: string
+
+    @ManyToOne(() => User, (user) => user.entries, {
+        eager: true
+    })
+    user: User
 
     @ManyToOne(() => Category, (category) => category.entries, {
         eager: true
