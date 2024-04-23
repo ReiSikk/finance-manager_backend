@@ -13,9 +13,9 @@ export const dbConfig: TypeOrmModuleOptions = {
     //username: process.env.DB_USER,
     username: 'postgres',
     //password: process.env.DB_PASSWORD,
-    password: 'Projektujmybazz123',
+    password: 'reeisikk',
     //database: process.env.DB_NAME,
-    database: 'finance',
+    database: 'financeManager',
     synchronize: true, // automatically generate a database based on my entities. Delete my data if needed.
     entities: ['dist/**/*.entity{.ts,.js}'],
     migrations: ['dist/src/migrations/*{.ts,.js}'],

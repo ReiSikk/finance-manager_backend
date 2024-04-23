@@ -25,7 +25,7 @@ export class Entry {
     @ManyToOne(() => User, (user) => user.entries, {
         eager: true
     })
-    user: User
+    user: User 
 
     @ManyToOne(() => Category, (category) => category.entries, {
         eager: true

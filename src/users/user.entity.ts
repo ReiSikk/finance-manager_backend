@@ -20,6 +20,6 @@ export class User {
     role: Role;
 
     @OneToMany(() => Entry, (entry) => entry.user)
-    entries: Entry[]
+    entries: Entry[] 
 
 }
