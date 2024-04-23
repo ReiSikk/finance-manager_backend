@@ -1,15 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { EntryService } from './entry.service';
 import { CreateEntryDto } from './dto/create-entry.dto';
 import { UpdateEntryDto } from './dto/update-entry.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('entry')
 export class EntryController {
   constructor(private readonly entryService: EntryService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createEntryDto: CreateEntryDto) {
-    return this.entryService.create(createEntryDto);
+  async create(@Request() req, @Body() createEntryDto: CreateEntryDto) {
+    const loggedInUser = req.user;
+    console.log(req.user)
+    return this.entryService.create(createEntryDto, loggedInUser);
   }
 
   @Get()

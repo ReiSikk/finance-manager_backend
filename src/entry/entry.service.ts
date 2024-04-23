@@ -5,6 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Entry } from './entities/entry.entity';
 import { Repository } from 'typeorm';
 import { Category } from 'src/categories/entities/category.entity';
+import { User } from 'src/users/user.entity';
+
 @Injectable()
 export class EntryService {
 
@@ -13,11 +15,15 @@ export class EntryService {
   private entryRepository: Repository<Entry>,
   @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
 
-  async create(createEntryDto: CreateEntryDto) {
+  async create(createEntryDto: CreateEntryDto, user: User) {
     let category = await this.categoryRepository.findOne({ where: { name: createEntryDto.category.name } });
+let currentUser = await this.userRepository.findOne({ where: { id: user.id } });
+
 
     if (!category) {
       category = this.categoryRepository.create({ name: createEntryDto.category.name });
@@ -26,6 +32,7 @@ export class EntryService {
 
   const entry = this.entryRepository.create(createEntryDto);
   entry.category = category;
+  entry.user = currentUser;
 
     return this.entryRepository.save(entry)
   }
