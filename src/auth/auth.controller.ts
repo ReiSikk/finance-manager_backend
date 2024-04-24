@@ -4,16 +4,25 @@ import { CreateUserDto } from '../users/create-user-dto';
 import { SignInDto } from './dtos/sign-in.dto';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { Request } from 'express';
+
 
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
   @Post('login')
 signIn(@Body(new ValidationPipe()) signInDto: SignInDto) {
   return this.authService.signIn(signInDto.username, signInDto.password);
+}
+
+@UseGuards(LocalAuthGuard)
+@Post('login')
+async login(@Request2() req) {
+  return this.authService.signUp(req.user);
 }
 
   @Post('signup')

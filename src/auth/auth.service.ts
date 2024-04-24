@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { Role } from './enums/role.enum'
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -22,8 +23,22 @@ export class AuthService {
             role: user.role, */
           };
         } else {
+          console.log("Invalid credentials", user, user.password, password);
           throw new UnauthorizedException({success: false, message: 'Invalid credentials' });
         }
+      }
+
+      async validateUser(username: string, password: string): Promise<any> {
+        const user = await this.usersService.findOne(username);
+         console.log("user found", user);
+    
+        if (user && await bcrypt.compare(password, user.password)) {
+          const { password, ...result } = user;
+          // console.log("user found removed password", result);
+          
+          return result;
+        }
+        return null;
       }
 
     async signUp(createUserDto): Promise<any> {

@@ -36,7 +36,7 @@ export class CreateEntryDto {
         this.name = name,
         this.comment = comment
         this.category = this.category;
-        this.user = this.user;
+         this.user = this.user;
 
      }
 }

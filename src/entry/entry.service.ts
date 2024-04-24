@@ -22,7 +22,6 @@ export class EntryService {
 
   async create(createEntryDto: CreateEntryDto, user: User) {
     let category = await this.categoryRepository.findOne({ where: { name: createEntryDto.category.name } });
-let currentUser = await this.userRepository.findOne({ where: { id: user.id } });
 
 
     if (!category) {
@@ -32,13 +31,14 @@ let currentUser = await this.userRepository.findOne({ where: { id: user.id } });
 
   const entry = this.entryRepository.create(createEntryDto);
   entry.category = category;
-  entry.user = currentUser;
-
+  entry.user = user;
     return this.entryRepository.save(entry)
   }
 
-  findAll() {
-    return this.entryRepository.find();
+  findAll(user: User) {
+    return this.entryRepository.find({
+      where: { user: { id: user.id } }
+    })
   }
 
   findOne(id: number) {

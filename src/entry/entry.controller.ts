@@ -12,13 +12,14 @@ export class EntryController {
   @Post()
   async create(@Request() req, @Body() createEntryDto: CreateEntryDto) {
     const loggedInUser = req.user;
-    console.log(req.user)
+    console.log(loggedInUser, "logged in user")
     return this.entryService.create(createEntryDto, loggedInUser);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.entryService.findAll();
+  findAll(@Request() req) {
+    return this.entryService.findAll(req.user);
   }
 
   @Get(':id')
