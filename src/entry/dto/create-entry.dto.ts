@@ -1,7 +1,7 @@
 //the object you receive from the frontend to create a new entry into the DB.
 import { IsNotEmpty, IsNumber,IsString, IsDateString } from "class-validator"
 import { Category } from "src/categories/entities/category.entity";
-import { User } from "src/users/user.entity";
+import { User } from "../../users/user.entity";
 
 export class CreateEntryDto {
     @IsNotEmpty()
@@ -36,7 +36,6 @@ export class CreateEntryDto {
         this.name = name,
         this.comment = comment
         this.category = this.category;
-         this.user = this.user;
 
      }
 }

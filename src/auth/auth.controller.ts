@@ -13,16 +13,17 @@ import { Request } from 'express';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(JwtAuthGuard)
+/*   @UseGuards(JwtAuthGuard)
   @Post('login')
 signIn(@Body(new ValidationPipe()) signInDto: SignInDto) {
+  console.log("signInDto", signInDto)
   return this.authService.signIn(signInDto.username, signInDto.password);
-}
+} */
 
 @UseGuards(LocalAuthGuard)
 @Post('login')
 async login(@Request2() req) {
-  return this.authService.signUp(req.user);
+  return this.authService.signIn(req.user, req.body.password);
 }
 
   @Post('signup')
