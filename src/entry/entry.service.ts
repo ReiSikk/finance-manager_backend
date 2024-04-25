@@ -53,6 +53,7 @@ export class EntryService {
   }
 
   remove(id: number) {
+    console.log("id in entry service remove method", id)
     return this.entryRepository.delete(id);
   }
 }

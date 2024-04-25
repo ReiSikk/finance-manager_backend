@@ -32,7 +32,8 @@ export class EntryController {
   update(@Param('id') id: string, @Body() updateEntryDto: UpdateEntryDto) {
     return this.entryService.update(+id, updateEntryDto);
   }
-
+  
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.entryService.remove(+id);
