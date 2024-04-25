@@ -22,6 +22,9 @@ export class Entry {
     @Column()
     comment: string
 
+    @Column()
+    photo: string
+
     @ManyToOne(() => User, (user) => user.entries, {
         eager: true
     })
@@ -30,6 +33,7 @@ export class Entry {
     @ManyToOne(() => Category, (category) => category.entries, {
         eager: true
     })
+
     category: Category
 
 }
