@@ -19,12 +19,9 @@ export class AuthService {
       const isPasswordCorrect = await bcrypt.compare(password, userFromDb.password);
       
       if (userFromDb && isPasswordCorrect) {
-          const payload = { username: userFromDb.username, role: userFromDb.role };
+          const payload = { username: userFromDb.username, id: userFromDb.id};
           return {
-           /*  success: true, */
             access_token: this.jwtService.sign(payload),
-           /*  username: user.username,
-            role: user.role, */
           };
         } else {
           throw new UnauthorizedException({success: false, message: 'Invalid credentials' });
@@ -33,12 +30,10 @@ export class AuthService {
 
       async validateUser(username: string, password: string): Promise<any> {
         const user = await this.usersService.findOne(username);
-         console.log("user found", user);
     
         if (user && await bcrypt.compare(password, user.password)) {
           const { password, ...result } = user;
-          // console.log("user found removed password", result);
-          
+          //retun user without password
           return result;
         }
         return null;

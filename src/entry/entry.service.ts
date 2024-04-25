@@ -21,7 +21,9 @@ export class EntryService {
 
 
   async create(createEntryDto: CreateEntryDto, user: User) {
+    console.log("User in entry service create method", user)
     let category = await this.categoryRepository.findOne({ where: { name: createEntryDto.category.name } });
+    let userFromDb = await this.userRepository.findOne({ where: { id: user.id } });
 
 
     if (!category) {
@@ -31,11 +33,12 @@ export class EntryService {
 
   const entry = this.entryRepository.create(createEntryDto);
   entry.category = category;
-  entry.user = user;
+  entry.user = userFromDb;
     return this.entryRepository.save(entry)
   }
 
   findAll(user: User) {
+    console.log("User in entry service find all method", user)
     return this.entryRepository.find({
       where: { user: { id: user.id } }
     })
