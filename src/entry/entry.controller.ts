@@ -12,7 +12,10 @@ export class EntryController {
   @Post()
   async create(@Request() req, @Body() createEntryDto: CreateEntryDto) {
     const loggedInUser = req.user;
-    console.log(req.user, "req.user in create entry controller")
+    //console.log(req.user, "req.user in create entry controller")
+    //console.log(createEntryDto, "entryDto in create entry controller")
+    const display_url = await this.entryService.saveImage(createEntryDto.photo);
+    createEntryDto.photo = display_url; //just save the url to the image in our database.
     return this.entryService.create(createEntryDto, loggedInUser);
   }
 

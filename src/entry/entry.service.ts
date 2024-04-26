@@ -20,8 +20,33 @@ export class EntryService {
   ) {}
 
 
+
+  async saveImage(base64EncodedImage: string): Promise<string> {
+    console.log("saveimg called", base64EncodedImage);
+    const formData = new FormData();
+    formData.append('image', base64EncodedImage);
+  
+    try {
+      const response = await fetch(`https://freeimage.host/api/1/upload?key=${process.env.IMG_API_KEY}`, {
+        method: 'POST',
+        body: formData
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const imageData = await response.json();
+      return imageData;
+    } catch (error) {
+      console.log("error!!!!!");
+      throw error;
+    }
+  }
+  
+
+
   async create(createEntryDto: CreateEntryDto, user: User) {
-    console.log("User in entry service create method", user)
     let category = await this.categoryRepository.findOne({ where: { name: createEntryDto.category.name } });
     let userFromDb = await this.userRepository.findOne({ where: { id: user.id } });
 
@@ -34,6 +59,7 @@ export class EntryService {
   const entry = this.entryRepository.create(createEntryDto);
   entry.category = category;
   entry.user = userFromDb;
+  entry.photo = createEntryDto.photo.image.display_url;
     return this.entryRepository.save(entry)
   }
 
