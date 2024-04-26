@@ -16,7 +16,7 @@ export const dbConfig: TypeOrmModuleOptions = {
     password: 'reeisikk',
     //database: process.env.DB_NAME,
     database: 'financeManager',
-    synchronize: false,
+    synchronize: true, // automatically generate a database based on my entities. Delete my data if needed.
     entities: ['dist/**/*.entity{.ts,.js}'],
     migrations: ['dist/src/migrations/*{.ts,.js}'],
     };

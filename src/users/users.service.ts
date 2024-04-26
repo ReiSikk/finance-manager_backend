@@ -35,7 +35,7 @@ async create(createUserDto: CreateUserDto): Promise<User> {
   }
 
   async findOne(username: string): Promise<User | undefined> {
-    return this.userRepository.findOne({ where: { username } });
+     return await this.userRepository.findOne({ where: { username } });
   }
   async findUserById(id: number) : Promise<User> {
     return this.userRepository.findOne({where: {id: id}});
